@@ -4,6 +4,7 @@ import pytesseract
 import numpy as np
 from PIL import Image, ImageChops
 
+
 def isGrayScale(path):
 	im = Image.open(path).convert('RGB')
 	w,h = im.size
@@ -13,8 +14,10 @@ def isGrayScale(path):
 			if r != g != b: return True
 	return False
 
+
 image_path = sys.argv[1]
 image = cv2.imread(image_path)
+
 isGray = isGrayScale(image_path)
 
 ker = np.ones((2,1), np.uint8)
@@ -28,8 +31,6 @@ else:
 	image = cv2.erode(image, ker, iterations=1)
 
 image = cv2.dilate(image, ker, iterations=1)
-
-pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
 out_result = pytesseract.image_to_string(image)
 
